@@ -168,28 +168,23 @@
         });
     }
 
-    function addInpageAnchors()
-    {
-        // adds a link to the navigation at the top of the page
-        function addJumpLinkToTOC($heading) {
-            if($.md.config.useSideMenu === false) return;
-            if($heading.prop("tagName") !== 'H2') return;
-
-            var c = $.md.config.tocAnchor;
-            if (c === '')
-                return;
-
-            var $jumpLink = $('<a class="visible-xs visible-sm jumplink" href="#md-page-menu">' + c + '</a>');
-            $jumpLink.click(function(ev) {
-                ev.preventDefault();
-
-                $('body').scrollTop($('#md-page-menu').position().top);
-            });
-
-            if ($heading.parents('#md-menu').length === 0) {
-                $jumpLink.insertAfter($heading);
-            }
-        }
+    function addInpageAnchors() {
+        $('h1,h2,h3,h4,h5,h6').not('#md-title h1').each(function () {
+            var $heading = $(this);
+            $heading.addClass('md-inpage-anchor');
+            var text = $heading.text().trim();
+            var href = '#' + text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+            
+            // Use an absolute URL if necessary
+            var baseUrl = window.location.origin + window.location.pathname.split('#')[0];
+            var absoluteHref = baseUrl + href;
+            
+            console.log('Generated anchor:', absoluteHref); // Debugging
+            var $anchor = $('<a class="anchor-highlight" href="' + absoluteHref + '">¶</a>');
+            $heading.append($anchor);
+        });
+    }
+    
 
         // adds a page inline anchor to each h1,h2,h3,h4,h5,h6 element
         // which can be accessed by the headings text
