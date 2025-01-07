@@ -1,6 +1,6 @@
 # Meetups
 
-## Navigating To The Meetup Page TEST TEST TEST TEST TEST
+## Navigating To The Meetup Page
 As you can see below, once you are in your planet dashboard you can access the page using the **Dashboard Tile** (Red box) and the **Menu** (Blue box):
 
 ![Access Meetup](images/planet-access-meetup.png)
