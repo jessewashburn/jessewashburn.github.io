@@ -174,11 +174,11 @@
         function addJumpLinkToTOC($heading) {
             if($.md.config.useSideMenu === false) return;
             if($heading.prop("tagName") !== 'H2') return;
-    
+
             var c = $.md.config.tocAnchor;
             if (c === '')
                 return;
-    
+
             var $jumpLink = $('<a class="visible-xs visible-sm jumplink" href="#md-page-menu">' + c + '</a>');
             $jumpLink.click(function(ev) {
                 ev.preventDefault();
@@ -188,22 +188,22 @@
                     $('html, body').animate({ scrollTop: target.offset().top }, 300);
                 }
             });
-    
+
             if ($heading.parents('#md-menu').length === 0) {
                 $jumpLink.insertAfter($heading);
             }
         }
-    
+
         // adds a page inline anchor to each h1,h2,h3,h4,h5,h6 element
         // which can be accessed by the headings text
         $('h1,h2,h3,h4,h5,h6').not('#md-title h1').each (function () {
             var $heading = $(this);
             $heading.addClass('md-inpage-anchor');
-    
+
             //add jumplink to table of contents
             addJumpLinkToTOC($heading);
         });
-    }    
+    }
 
 	function externalLinksTargetBlank () {
 		$("a[href^='http://']").each(
