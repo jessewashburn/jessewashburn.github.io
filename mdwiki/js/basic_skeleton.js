@@ -168,23 +168,25 @@
         });
     }
 
-    function addInpageAnchors() {
+    function addInpageAnchors()
+    {
         // adds a link to the navigation at the top of the page
         function addJumpLinkToTOC($heading) {
-            if ($.md.config.useSideMenu === false) return;
-            if ($heading.prop("tagName") !== 'H2') return;
+            if($.md.config.useSideMenu === false) return;
+            if($heading.prop("tagName") !== 'H2') return;
     
             var c = $.md.config.tocAnchor;
-            if (c === '') return;
+            if (c === '')
+                return;
     
-            // Ensure the anchor href is correctly interpreted
-            var baseHref = window.location.pathname.split('#')[0]; // Get current base path without hash
-            var $jumpLink = $('<a class="visible-xs visible-sm jumplink" href="' + baseHref + '#md-page-menu">' + c + '</a>');
-            
-            $jumpLink.click(function (ev) {
+            var $jumpLink = $('<a class="visible-xs visible-sm jumplink" href="#md-page-menu">' + c + '</a>');
+            $jumpLink.click(function(ev) {
                 ev.preventDefault();
     
-                $('body').scrollTop($('#md-page-menu').position().top);
+                var target = $('#md-page-menu');
+                if (target.length) {
+                    $('html, body').animate({ scrollTop: target.offset().top }, 300);
+                }
             });
     
             if ($heading.parents('#md-menu').length === 0) {
@@ -192,12 +194,16 @@
             }
         }
     
-        // Call the TOC link addition for all H2 headings
-        $('h2').each(function () {
-            addJumpLinkToTOC($(this));
-        });
-    }
+        // adds a page inline anchor to each h1,h2,h3,h4,h5,h6 element
+        // which can be accessed by the headings text
+        $('h1,h2,h3,h4,h5,h6').not('#md-title h1').each (function () {
+            var $heading = $(this);
+            $heading.addClass('md-inpage-anchor');
     
+            //add jumplink to table of contents
+            addJumpLinkToTOC($heading);
+        });
+    }    
 
 	function externalLinksTargetBlank () {
 		$("a[href^='http://']").each(
